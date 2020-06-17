@@ -18,7 +18,8 @@
             "name": "[parameters('lampCommon').storageAccountName]",
             "kind": "FileStorage",
             "sku": {
-                "name": "[parameters('lampCommon').storageAccountType]"
+                "name": "[parameters('lampCommon').storageAccountType]",
+                "tier": "Premium"
             },
             "properties": {
                 "largeFileSharesState": "Enabled",

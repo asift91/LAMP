@@ -470,9 +470,10 @@
             "type": "int"
         },
         "storageAccountType": {
-            "defaultValue": "Standard_LRS",
+            "defaultValue": "Premium_LRS",
             "allowedValues": [
                 "Standard_LRS",
+                "Premium_LRS",
                 "Standard_GRS",
                 "Standard_ZRS"
             ],
