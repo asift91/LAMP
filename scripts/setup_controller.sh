@@ -168,7 +168,9 @@ set -ex
         mv /azlamp /azlamp_old_delete_me
         # Then create the azlamp share
         echo -e '\n\rCreating an Azure Files share for azlamp'
-        create_azure_files_share azlamp $storageAccountName $storageAccountKey /tmp/wabs.log
+        # commenting the below line because creating azure files share as part of
+        # storage account creation with JSON Template
+        # create_azure_files_share azlamp $storageAccountName $storageAccountKey /tmp/wabs.log
         # Set up and mount Azure Files share. Must be done after nginx is installed because of www-data user/group
         echo -e '\n\rSetting up and mounting Azure Files share on //'$storageAccountName'.file.core.windows.net/azlamp on /azlamp\n\r'
         setup_and_mount_azure_files_share azlamp $storageAccountName $storageAccountKey
