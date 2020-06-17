@@ -8,6 +8,7 @@
             },
             "type": "object"
         }
+        
     },
     "resources": [
         {
@@ -15,29 +16,61 @@
             "apiVersion": "2019-06-01",
             "location": "[parameters('lampCommon').location]",
             "name": "[parameters('lampCommon').storageAccountName]",
-            "kind": "Storage",
+            "kind": "FileStorage",
             "sku": {
                 "name": "[parameters('lampCommon').storageAccountType]"
             },
             "properties": {
-                "encryption": {
-                    "keySource": "Microsoft.Storage",
-                    "services": {
-                        "blob": {
-                            "enabled": true
-                        },
-                        "file": {
-                            "enabled": true
-                        }
-                    }
-                },
+                "largeFileSharesState": "Enabled",
                 "networkAcls": {
                     "bypass": "AzureServices",
-                    "defaultAction": "Allow",
+                    "virtualNetworkRules": [],
                     "ipRules": [],
-                    "virtualNetworkRules": []
+                    "defaultAction": "Allow"
                 },
-                "supportsHttpsTrafficOnly": true
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
+                        },
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('lampCommon').storageAccountName, '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('lampCommon').storageAccountName)]"
+            ],
+            "sku": {
+                "name": "Premium_LRS",
+                "tier": "Premium"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('lampCommon').storageAccountName, '/default/azlamp')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('lampCommon').storageAccountName, 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('lampCommon').storageAccountName)]"
+            ],
+            "properties": {
+                "shareQuota": 1024
             }
         }
     ],

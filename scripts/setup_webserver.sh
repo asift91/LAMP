@@ -102,7 +102,8 @@ check_fileServerType_param $fileServerType
     # mount NFS-BYO export
     echo -e '\n\rMounting NFS export from '$nfsByoIpExportPath' on /azlamp and adding it to /etc/fstab\n\r'
     configure_nfs_client_and_mount0 $nfsByoIpExportPath /azlamp
-  else # "azurefiles"
+  elif [ $fileServerType = "azurefiles" ]; then
+    # mount Azure Files export
     setup_and_mount_azure_files_share azlamp $storageAccountName $storageAccountKey
   fi
 

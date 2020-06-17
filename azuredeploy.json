@@ -342,6 +342,7 @@
             "defaultValue": "nfs",
             "allowedValues": [
                 "gluster",
+                "azurefiles",
                 "nfs",
                 "nfs-ha",
                 "nfs-byo"
