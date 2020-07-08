@@ -150,6 +150,7 @@ set -ex
     sudo apt-get -y install apt-transport-https >> /tmp/apt4.log
     sudo apt-get -y update > /dev/null
     sudo apt-get -y install azure-cli >> /tmp/apt4.log
+    
     # Set up initial LAMP dirs
     mkdir -p /azlamp/html
     mkdir -p /azlamp/certs
