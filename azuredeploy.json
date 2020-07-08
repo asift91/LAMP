@@ -341,6 +341,7 @@
         "fileServerType": {
             "defaultValue": "nfs",
             "allowedValues": [
+                "azurefiles"
                 "gluster",
                 "nfs",
                 "nfs-ha",
@@ -469,8 +470,9 @@
             "type": "int"
         },
         "storageAccountType": {
-            "defaultValue": "Standard_LRS",
+            "defaultValue": "Premium_LRS",
             "allowedValues": [
+                "Premium_LRS",
                 "Standard_LRS",
                 "Standard_GRS",
                 "Standard_ZRS"

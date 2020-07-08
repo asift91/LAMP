@@ -142,7 +142,14 @@ set -ex
     else
         apt-get install -y --force-yes php$phpVersion-pgsql
     fi
+    # install azure cli & setup container
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | \
+    sudo tee /etc/apt/sources.list.d/azure-cli.list
 
+    curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - >> /tmp/apt4.log
+    sudo apt-get -y install apt-transport-https >> /tmp/apt4.log
+    sudo apt-get -y update > /dev/null
+    sudo apt-get -y install azure-cli >> /tmp/apt4.log
     # Set up initial LAMP dirs
     mkdir -p /azlamp/html
     mkdir -p /azlamp/certs
