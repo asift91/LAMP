@@ -56,6 +56,7 @@ function get_setup_params_from_configs_json() {
   export applicationDbName=$(echo $json | jq -r .applicationProfile.applicationDbName)
   export wpAdminPass=$(echo $json | jq -r .applicationProfile.wpAdminPass)
   export wpDbUserPass=$(echo $json | jq -r .applicationProfile.wpDbUserPass)
+  export wpVersion=$(echo $json | jq -r .applicationProfile.wpVersion)
 }
 
 function get_php_version() {
@@ -110,6 +111,19 @@ function download_wordpress() {
   wget https://wordpress.org/latest.tar.gz
   tar -xvf $wordpressPath/latest.tar.gz
   rm $wordpressPath/latest.tar.gz
+  mv $wordpressPath/wordpress $wordpressPath/$siteFQDN
+}
+
+function download_wordpress_version() {
+  local wordpressPath=/azlamp/html
+  #local path=/var/lib/waagent/custom-script/download/0
+  local siteFQDN=$1
+  local version=$2
+
+  cd $wordpressPath
+  wget https://wordpress.org/wordpress-$version.tar.gz
+  tar -xvf $wordpressPath/wordpress-$version.tar.gz
+  rm $wordpressPath/wordpress-$version.tar.gz
   mv $wordpressPath/wordpress $wordpressPath/$siteFQDN
 }
 
@@ -254,6 +268,27 @@ function generate_sslcerts() {
   chmod 400 $path/nginx.*
   chown www-data:www-data $path/nginx.*
   chown -R www-data:www-data /azlamp/data/$1
+}
+
+function generate_text_file() {
+  local dnsSite=$1
+  local username=$2
+  local passw=$3
+  local dbIP=$4
+  local wpDbUserId=$5
+  local wpDbUserPass=$6
+
+  cat <<EOF >/home
+WordPress site name: $dnsSite
+username: $username
+password: $passw
+
+Database details
+db server name: $dbIP
+wpDbUserId: $wpDbUserId
+wpDbUserPass: $wpDbUserPass
+
+EOF
 }
 
 function check_fileServerType_param() {
