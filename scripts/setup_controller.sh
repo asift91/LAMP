@@ -59,6 +59,7 @@ set -ex
     echo $applicationDbName >>/tmp/vars.txt
     echo $wpAdminPass >>/tmp/vars.txt
     echo $wpDbUserPass >>/tmp/vars.txt
+    echo $wpVersion >>/tmp/vars.txt
 
     check_fileServerType_param $fileServerType
 
@@ -252,7 +253,8 @@ EOF
             # Creates a Database for CMS application
             create_database $dbIP $dbadminloginazure $dbadminpass $applicationDbName $wpDbUserId $wpDbUserPass
             # Download the wordpress application compressed file
-            download_wordpress $dnsSite
+            # download_wordpress $dnsSite
+            download_wordpress $dnsSite $wpVersion
             # Links the data content folder to shared folder.. /azlamp/data
             linking_data_location $dnsSite
             # Creates a wp-config file for wordpress
@@ -265,6 +267,8 @@ EOF
             install_woocommerce $wpPath
             # Generates the openSSL certificates
             generate_sslcerts $dnsSite
+            # Generates a text file
+            generate_text_file $dnsSite $wpAdminUser $wpAdminPassword $dbIP $wpDbUserId $wpDbUserPass
         }
         install_application
     fi
