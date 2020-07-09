@@ -278,7 +278,7 @@ function generate_text_file() {
   local wpDbUserId=$5
   local wpDbUserPass=$6
 
-  cat <<EOF >/home
+  cat <<EOF >/home/wordpress.txt
 WordPress site name: $dnsSite
 username: $username
 password: $passw
